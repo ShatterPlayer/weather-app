@@ -9,7 +9,7 @@ import classNames from '@/app/_utils/classNames'
 
 import styles from './PositionPicker.module.css'
 
-interface Props {
+export interface PositionPickerProps {
   initialLatitude: number
   initialLongitude: number
   isLoading: boolean
@@ -23,7 +23,7 @@ export default function PositionPicker({
   forecast,
   isLoading,
   className,
-}: Props) {
+}: PositionPickerProps) {
   const [latitude, setLatitude] = useState<number>(initialLatitude)
   const [longitude, setLongitude] = useState<number>(initialLongitude)
 

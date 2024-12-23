@@ -8,14 +8,14 @@ import { numberRegex } from '@/app/_utils/regexes'
 
 import styles from './page.module.css'
 
-interface Props {
+export interface ForecastPageProps {
   searchParams: {
     latitude: string
     longitude: string
   }
 }
 
-export default async function Forecast({ searchParams }: Props) {
+export default async function Forecast({ searchParams }: ForecastPageProps) {
   const { latitude, longitude } = await searchParams
 
   if (

@@ -4,12 +4,15 @@ import styles from './WeekSummary.module.css'
 
 import Notification from '@/app/_components/Notification/Notification'
 
-interface Props {
+export interface WeekSummaryProps {
   latitude: number
   longitude: number
 }
 
-export default async function WeekSummary({ latitude, longitude }: Props) {
+export default async function WeekSummary({
+  latitude,
+  longitude,
+}: WeekSummaryProps) {
   try {
     const data = await fetch(
       `${process.env.URL}/api/week-summary?latitude=${latitude}&longitude=${longitude}`

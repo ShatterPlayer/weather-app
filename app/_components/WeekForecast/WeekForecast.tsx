@@ -4,11 +4,14 @@ import DayForecast from '../DayForecast/DayForecast'
 import styles from './WeekForecast.module.css'
 import Notification from '../Notification/Notification'
 
-interface Props {
+export interface WeatherForecastProps {
   longitude: number
   latitude: number
 }
-export default async function WeekForecast({ longitude, latitude }: Props) {
+export default async function WeekForecast({
+  longitude,
+  latitude,
+}: WeatherForecastProps) {
   try {
     const data = await fetch(
       `${process.env.URL}/api/week-forecast?latitude=${latitude}&longitude=${longitude}`

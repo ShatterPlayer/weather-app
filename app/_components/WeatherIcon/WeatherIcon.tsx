@@ -13,7 +13,7 @@ import unknownIcon from '@/app/_assets/weather-icons/unknown.png'
 import classNames from '@/app/_utils/classNames'
 import styles from './WeatherIcon.module.css'
 
-interface Props {
+export interface WeatherIconProps {
   code: number
   className?: string
 }
@@ -51,7 +51,7 @@ const codesToIcons: {
   99: thunderstorm,
 }
 
-export default function WeatherIcon({ code, className }: Props) {
+export default function WeatherIcon({ code, className }: WeatherIconProps) {
   const icon = codesToIcons[code] || unknownIcon
   return (
     <Image

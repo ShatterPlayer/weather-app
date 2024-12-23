@@ -3,7 +3,7 @@ import { Alert } from '@mui/material'
 import Snackbar from '@mui/material/Snackbar'
 import { useEffect, useState } from 'react'
 
-interface Props {
+export interface NotificationProps {
   dismissTime: number
   message: string
   positionVertical?: 'top' | 'bottom'
@@ -17,7 +17,7 @@ export default function Notification({
   positionHorizontal,
   positionVertical,
   severity,
-}: Props) {
+}: NotificationProps) {
   const [open, setOpen] = useState(dismissTime !== 0)
 
   useEffect(() => {

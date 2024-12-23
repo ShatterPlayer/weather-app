@@ -3,7 +3,7 @@ import classNames from '@/app/_utils/classNames'
 
 import styles from './DayForecast.module.css'
 
-interface Props {
+export interface DayForecastProps {
   date: string
   weatherCode: number
   temperatureMax: number
@@ -19,7 +19,7 @@ export default function DayForecast({
   temperatureMin,
   estimatedEnergyProduction,
   className,
-}: Props) {
+}: DayForecastProps) {
   return (
     <section className={classNames(styles.container, className)}>
       <WeatherIcon className={styles.weatherIcon} code={weatherCode} />
