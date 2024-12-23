@@ -9,10 +9,10 @@ import { numberRegex } from '@/app/_utils/regexes'
 import styles from './page.module.css'
 
 export interface ForecastPageProps {
-  searchParams: {
+  searchParams: Promise<{
     latitude: string
     longitude: string
-  }
+  }>
 }
 
 export default async function Forecast({ searchParams }: ForecastPageProps) {

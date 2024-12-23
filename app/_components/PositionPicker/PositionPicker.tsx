@@ -1,11 +1,12 @@
 'use client'
-
 import LoadingButton from '@mui/lab/LoadingButton'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import { MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useState } from 'react'
 import classNames from '@/app/_utils/classNames'
+
+// const { MapContainer, Popup, TileLayer, useMapEvents } = dynamic(() => import('react-leaflet'), { ssr: false })
+import { MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 
 import styles from './PositionPicker.module.css'
 

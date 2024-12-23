@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import LoadingButton from '@mui/lab/LoadingButton'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
@@ -7,7 +8,11 @@ import Notification from '@/app/_components/Notification/Notification'
 
 import styles from './page.module.css'
 
-import PositionPicker from './_components/PositionPicker/PositionPicker'
+// Musimy importować mapę dynamicznie bez ssr, ponieważ w momencie budowania aplikacji nie ma dostępu do obiektu window
+const PositionPicker = dynamic(
+  () => import('@/app/_components/PositionPicker/PositionPicker'),
+  { ssr: false }
+)
 import { ThemeProvider } from '@emotion/react'
 import theme from '@/app/_utils/theme'
 
