@@ -34,7 +34,7 @@ export default function PositionPicker({
 
   const MapEvents = () => {
     useMapEvents({
-      click(e: any) {
+      click(e: { latlng: { lat: number; lng: number } }) {
         if (isLoading) {
           return
         }

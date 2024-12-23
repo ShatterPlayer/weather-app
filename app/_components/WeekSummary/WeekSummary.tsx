@@ -62,7 +62,7 @@ export default async function WeekSummary({
         </div>
       </section>
     )
-  } catch (error) {
+  } catch {
     return (
       <Notification
         dismissTime={5000}

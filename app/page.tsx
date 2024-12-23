@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import LoadingButton from '@mui/lab/LoadingButton'
 import GpsFixedIcon from '@mui/icons-material/GpsFixed'
@@ -13,10 +13,6 @@ import theme from '@/app/_utils/theme'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
-  const [markerLocalization, setMarkerLocalization] = useState({
-    latitude: 50.06459463327754,
-    longitude: 19.92328763008118,
-  })
   const [error, setError] = useState<string | null>(null)
 
   const router = useRouter()
@@ -31,7 +27,7 @@ export default function Home() {
       position => {
         redirectToForecast(position.coords.latitude, position.coords.longitude)
       },
-      error => {
+      () => {
         setIsLoading(false)
         setError('Błąd podczas pobierania lokalizacji')
       }
