@@ -1,44 +1,74 @@
 'use client'
 import { useEffect, useState } from 'react'
-import DayForecast from './_components/DayForecast/DayForecast'
-import WeekForecastResponse from './_types/WeekForecastResponse'
-import WeekForecast from './_components/WeekForecast/WeekForecast'
-import WeekSummary from './_components/WeekSummary/WeekSummary'
+import { useRouter } from 'next/navigation'
+import LoadingButton from '@mui/lab/LoadingButton'
+import GpsFixedIcon from '@mui/icons-material/GpsFixed'
+import Notification from '@/app/_components/Notification/Notification'
+
+import styles from './page.module.css'
+
+import PositionPicker from './_components/PositionPicker/PositionPicker'
+import { ThemeProvider } from '@emotion/react'
+import theme from '@/app/_utils/theme'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false)
-  const [latitude, setLatitude] = useState<number | null>(null)
-  const [longitude, setLongitude] = useState<number | null>(null)
+  const [markerLocalization, setMarkerLocalization] = useState({
+    latitude: 50.06459463327754,
+    longitude: 19.92328763008118,
+  })
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
+  const router = useRouter()
+
+  const redirectToForecast = (latitude: number, longitude: number) => {
+    router.push(`/forecast?latitude=${latitude}&longitude=${longitude}`)
+  }
+
+  const forecastAtCurrentPosition = () => {
     setIsLoading(true)
     navigator.geolocation.getCurrentPosition(
       position => {
-        setIsLoading(false)
-        setLatitude(position.coords.latitude)
-        setLongitude(position.coords.longitude)
-        console.log(position)
+        redirectToForecast(position.coords.latitude, position.coords.longitude)
       },
       error => {
         setIsLoading(false)
         setError('Błąd podczas pobierania lokalizacji')
       }
     )
-  }, [])
-
-  if (error) {
-    return <p>{error}</p>
   }
 
-  if (isLoading || !latitude || !longitude) {
-    return <p>Pobieranie pozycji geograficznej</p>
+  const forecastAtSelectedPosition = (latitude: number, longitude: number) => {
+    setIsLoading(true)
+    redirectToForecast(latitude, longitude)
   }
 
   return (
-    <section>
-      <WeekForecast latitude={latitude} longitude={longitude} />
-      <WeekSummary latitude={latitude} longitude={longitude} />
-    </section>
+    <ThemeProvider theme={theme}>
+      <section>
+        <LoadingButton
+          className={styles.currentPositionButton}
+          loading={isLoading}
+          loadingPosition="start"
+          startIcon={<GpsFixedIcon />}
+          onClick={forecastAtCurrentPosition}
+          variant="contained"
+          color="primary"
+          disabled={error !== null}
+        >
+          {error ? error : <>Użyj aktualnej lokalizacji urządzenia</>}
+        </LoadingButton>
+        <PositionPicker
+          className={styles.positionPicker}
+          initialLatitude={50.06459463327754}
+          initialLongitude={19.92328763008118}
+          forecast={forecastAtSelectedPosition}
+          isLoading={isLoading}
+        />
+        {error && (
+          <Notification dismissTime={5000} message={error} severity="error" />
+        )}
+      </section>
+    </ThemeProvider>
   )
 }

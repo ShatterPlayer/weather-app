@@ -1,54 +1,71 @@
 import WeekSummaryResponse from '@/app/_types/WeekSummaryResponse'
-import { useEffect, useState } from 'react'
+
+import styles from './WeekSummary.module.css'
+
+import Notification from '@/app/_components/Notification/Notification'
 
 interface Props {
   latitude: number
   longitude: number
 }
 
-export default function WeekSummary({ latitude, longitude }: Props) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [weekSummary, setWeekSummary] = useState<WeekSummaryResponse | null>()
-  const [error, setError] = useState<string | null>(null)
+export default async function WeekSummary({ latitude, longitude }: Props) {
+  try {
+    const data = await fetch(
+      `${process.env.URL}/api/week-summary?latitude=${latitude}&longitude=${longitude}`
+    )
 
-  useEffect(() => {
-    if (!latitude || !longitude) {
-      return
+    if (!data.ok) {
+      throw new Error('Błąd podczas pobierania podsumowania tygodnia')
     }
 
-    setIsLoading(true)
-    fetch(`/api/week-summary?latitude=${latitude}&longitude=${longitude}`)
-      .then(response => response.json())
-      .then(data => {
-        setWeekSummary(data)
-        setIsLoading(false)
-      })
-      .catch(() => {
-        setError('Błąd podczas pobierania podsumowania tygodnia')
-        setIsLoading(false)
-      })
-  }, [latitude, longitude])
+    const weekSummary: WeekSummaryResponse = await data.json()
 
-  if (error) {
-    return <p>{error}</p>
+    return (
+      <section className={styles.container}>
+        <h2 className={styles.title}>
+          Podsumowanie tygodnia -{' '}
+          {weekSummary.precipitationWeek ? (
+            <>tydzień na ogół z opadami</>
+          ) : (
+            <>tydzień na ogół bez opadów</>
+          )}{' '}
+        </h2>
+        <div className={styles.summary}>
+          <div className={styles.summaryStatsGroup}>
+            <div className={styles.summaryStat}>
+              <p className={styles.summaryStatDesc}>Maksymalna temperatura</p>
+              <p>{weekSummary.temperatureMax} °C</p>
+            </div>
+            <div className={styles.summaryStat}>
+              <p className={styles.summaryStatDesc}>Minimalna temperatura</p>
+              <p>{weekSummary.temperatureMin} °C</p>
+            </div>
+          </div>
+          <div className={styles.summaryStatsGroup}>
+            <div className={styles.summaryStat}>
+              <p className={styles.summaryStatDesc}>
+                Średnie ciśnienie atmosferyczne
+              </p>
+              <p>{weekSummary.averagePressure} hPa</p>
+            </div>
+            <div className={styles.summaryStat}>
+              <p className={styles.summaryStatDesc}>
+                Średni czas ekspozycji na słońce
+              </p>
+              <p>{weekSummary.averageSunshine} h</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  } catch (error) {
+    return (
+      <Notification
+        dismissTime={5000}
+        message={'Błąd podczas pobieranie prognozy pogody'}
+        severity="error"
+      />
+    )
   }
-
-  if (isLoading || !weekSummary) {
-    return <p>Pobieranie podsumowania tygodnia</p>
-  }
-
-  return (
-    <section>
-      <h2>Podsumowanie tygodnia</h2>
-      <p>Maksymalna temperatura: {weekSummary.temperatureMax}°C</p>
-      <p>Minimalna temperatura: {weekSummary.temperatureMin}°C</p>
-      <p>Średnie ciśnienie atmosferyczne: {weekSummary.averagePressure}hPa</p>
-      <p>Średni czas ekspozycji na słońce: {weekSummary.averageSunshine}h</p>
-      {weekSummary.precipitationWeek ? (
-        <p>Tydzień na ogół z opadami</p>
-      ) : (
-        <p>Tydzień na ogół bez opadów</p>
-      )}
-    </section>
-  )
 }

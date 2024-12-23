@@ -1,4 +1,5 @@
 import WeatherIcon from '../WeatherIcon/WeatherIcon'
+import classNames from '@/app/_utils/classNames'
 
 import styles from './DayForecast.module.css'
 
@@ -8,6 +9,7 @@ interface Props {
   temperatureMax: number
   temperatureMin: number
   estimatedEnergyProduction: number
+  className?: string
 }
 
 export default function DayForecast({
@@ -16,14 +18,18 @@ export default function DayForecast({
   temperatureMax,
   temperatureMin,
   estimatedEnergyProduction,
+  className,
 }: Props) {
   return (
-    <section className={styles.container}>
+    <section className={classNames(styles.container, className)}>
       <WeatherIcon className={styles.weatherIcon} code={weatherCode} />
-      <p>{date}</p>
-      <p>Maksymalna temperatura: {temperatureMax}°C</p>
-      <p>Minimalna temperatura: {temperatureMin}°C</p>
-      <p>Przewidywana produkcja energii: {estimatedEnergyProduction} kWh</p>
+      <h2 className={styles.date}>{date}</h2>
+      <p className={styles.statDescription}>Maksymalna temperatura</p>
+      <p>{temperatureMax} °C</p>
+      <p className={styles.statDescription}>Minimalna temperatura</p>
+      <p>{temperatureMin} °C</p>
+      <p className={styles.statDescription}>Przewidywana produkcja energii</p>
+      <p>{estimatedEnergyProduction} kWh</p>
     </section>
   )
 }

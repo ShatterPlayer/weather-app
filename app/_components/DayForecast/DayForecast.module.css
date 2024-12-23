@@ -2,8 +2,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   flex: 1;
   height: 100%;
+  padding: 10px;
+  min-width: 215px;
 }
 
 .weatherIcon {
@@ -11,4 +14,15 @@
   height: 50px;
   margin: 0 auto;
   margin-bottom: 10px;
+}
+
+.date {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.statDescription {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
 }

@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--background);
+}
+
+.title {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.summaryStatsGroup {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+}
+
+.summaryStat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.summaryStatDesc {
+  font-weight: bold;
+  text-align: center;
+}
+
+@media screen and (max-width: 670px) {
+  .title {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .summary {
+    flex-direction: column;
+  }
+
+  .summaryStatsGroup {
+    flex-direction: column;
+  }
+}

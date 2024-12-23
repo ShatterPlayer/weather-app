@@ -1,7 +1,6 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-const numberRegex = /^-?\d+(\.\d+)?$/ // regex sprawdzający, czy string jest liczbą
+import { numberRegex } from '@/app/_utils/regexes'
 
 export function middleware(request: NextRequest) {
   const longitude = request.nextUrl.searchParams.get('longitude')

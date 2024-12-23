@@ -1,6 +1,16 @@
 :root {
-  --background: #ffffff;
+  --background: #eaeaea;
+  --background-secondary: #f7f7f7;
   --foreground: #171717;
+  /* color-scheme: only; */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #171717;
+    --background-secondary: #1e1e1e;
+    --foreground: #eaeaea;
+  }
 }
 
 body {

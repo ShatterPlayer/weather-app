@@ -1,5 +1,10 @@
 .container {
   display: flex;
-  width: 100vw;
-  height: calc(100vh - 100px);
+  width: 100%;
+  overflow-x: auto;
+  flex: 1;
+}
+
+.dayForecast:nth-child(even) {
+  background-color: var(--background-secondary);
 }

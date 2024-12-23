@@ -1,0 +1,18 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.changeLocalizationButton {
+  position: fixed;
+  top: 25px;
+  right: 50px;
+}
+
+@media screen and (max-width: 570px) {
+  .changeLocalizationButton {
+    right: 50%;
+    transform: translateX(50%);
+  }
+}
