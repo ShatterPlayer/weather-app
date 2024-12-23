@@ -56,7 +56,7 @@ export default function PositionPicker({
     <MapContainer
       className={classNames(styles.container, className)}
       center={[initialLatitude, initialLongitude]}
-      zoom={25}
+      zoom={15}
       scrollWheelZoom={false}
     >
       <TileLayer
