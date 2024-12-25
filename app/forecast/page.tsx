@@ -22,9 +22,12 @@ export default async function Forecast({ searchParams }: ForecastPageProps) {
     !latitude ||
     !longitude ||
     !numberRegex.test(latitude) ||
-    !numberRegex.test(longitude)
+    !numberRegex.test(longitude) ||
+    +latitude < -90 ||
+    +latitude > 90 ||
+    +longitude < -180 ||
+    +longitude > 180
   ) {
-    console.log(latitude, longitude)
     redirect('/')
   }
 
