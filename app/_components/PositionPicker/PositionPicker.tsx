@@ -32,9 +32,10 @@ export default function PositionPicker({
   const MapEvents = () => {
     useMapEvents({
       click(e) {
-        if (isLoading) {
+        if (isLoading || e.latlng.lng < -180 || e.latlng.lng > 180) {
           return
         }
+        console.log(e.latlng)
         setMarkerCoordinates(e.latlng.lat, e.latlng.lng)
       },
 
@@ -55,6 +56,11 @@ export default function PositionPicker({
       className={classNames(styles.container, className)}
       center={[markerLatitude, markerLongitude]}
       zoom={zoom}
+      maxBounds={[
+        [90, 180],
+        [-90, -180],
+      ]}
+      worldCopyJump={true}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
