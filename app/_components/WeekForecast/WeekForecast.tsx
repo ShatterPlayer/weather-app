@@ -43,7 +43,7 @@ export default async function WeekForecast({
     return (
       <Notification
         dismissTime={5000}
-        message={'Błąd podczas pobieranie prognozy pogody'}
+        message={'Błąd podczas pobierania prognozy pogody'}
         severity="error"
       />
     )
