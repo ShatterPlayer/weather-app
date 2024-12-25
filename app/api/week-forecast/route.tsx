@@ -32,7 +32,18 @@ export async function GET(request: NextRequest) {
     for (let i = 0; i < numberOfDays; i++) {
       let estimatedEnergyProduction =
         installationPowerInKiloWats *
-        // sunshine_duration jest podane w sekundach. Używam właśnie tą wartość ponieważ jest ona mierzona powyżej nasłonecznienia 120 W/m^2. Z informacji, które udało mi się znaleźć wynika że minimum do produkcji prądu to 100-200 W/m^2.
+        /* 
+        Szczerze powiedziawszy nie jestem pewien czy tutaj należy użyć daylight_duration czy sunshine_duration.
+
+        W dokumentacji open-meteo na temat sunshine_duration możemy przeczytać: "The number of seconds of sunshine per day is 
+        determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration
+        will consistently be less than daylight duration due to dawn and dusk."
+
+        Na pierwszy rzut oka wydaje się, że powinno być użyte sunshine_duration, ale wtedy nienaturalnie dużo dni ma produkcję energii równą 0, co nie jest prawdą.
+
+        Zostawiłem sunshine_duration z racji, że wtedy statystyki takie jak średni czas ekspozycji na słońce mają większy sens. daylight_duration nie zmienia się zbyt dużo
+        w ciągu tygodnia.
+        */
         (daily.sunshine_duration[i] / 3600) *
         efficiencyOfSolarPanels
 

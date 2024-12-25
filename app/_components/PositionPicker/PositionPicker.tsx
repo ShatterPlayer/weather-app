@@ -2,46 +2,44 @@
 import LoadingButton from '@mui/lab/LoadingButton'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
 import classNames from '@/app/_utils/classNames'
 
-// const { MapContainer, Popup, TileLayer, useMapEvents } = dynamic(() => import('react-leaflet'), { ssr: false })
 import { MapContainer, Popup, TileLayer, useMapEvents } from 'react-leaflet'
 
 import styles from './PositionPicker.module.css'
+import { useWorldMapState } from '@/app/_state/WorldMapState'
 
 export interface PositionPickerProps {
-  initialLatitude: number
-  initialLongitude: number
   isLoading: boolean
   forecast: (latitude: number, longitude: number) => void
   className?: string
 }
 
 export default function PositionPicker({
-  initialLatitude,
-  initialLongitude,
   forecast,
   isLoading,
   className,
 }: PositionPickerProps) {
-  const [latitude, setLatitude] = useState<number>(initialLatitude)
-  const [longitude, setLongitude] = useState<number>(initialLongitude)
-
-  useEffect(() => {
-    setLatitude(initialLatitude)
-    setLongitude(initialLongitude)
-  }, [initialLatitude, initialLongitude])
+  // Stan mapy musi być zapisywany poza tym komponentem by móc przywracać położenie znacznika i przybliżenie po powrocie z widoku prognozy pogody
+  const {
+    markerLatitude,
+    markerLongitude,
+    zoom,
+    setZoom,
+    setMarkerCoordinates,
+  } = useWorldMapState()
 
   const MapEvents = () => {
     useMapEvents({
-      click(e: { latlng: { lat: number; lng: number } }) {
+      click(e) {
         if (isLoading) {
           return
         }
-        console.log(e.latlng)
-        setLatitude(e.latlng.lat)
-        setLongitude(e.latlng.lng)
+        setMarkerCoordinates(e.latlng.lat, e.latlng.lng)
+      },
+
+      zoomend(e) {
+        setZoom(e.target.getZoom())
       },
     })
 
@@ -49,25 +47,25 @@ export default function PositionPicker({
   }
 
   const forecastAtSelectedPosition = () => {
-    forecast(latitude, longitude)
+    forecast(markerLatitude, markerLongitude)
   }
 
   return (
     <MapContainer
       className={classNames(styles.container, className)}
-      center={[initialLatitude, initialLongitude]}
-      zoom={15}
-      scrollWheelZoom={false}
+      center={[markerLatitude, markerLongitude]}
+      zoom={zoom}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <Popup
-        position={[latitude, longitude]}
+        position={[markerLatitude, markerLongitude]}
         autoClose={false}
         closeOnClick={false}
         closeButton={false}
+        autoPan={false}
       >
         <LoadingButton
           loading={isLoading}

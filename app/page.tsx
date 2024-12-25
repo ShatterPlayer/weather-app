@@ -61,8 +61,6 @@ export default function Home() {
         </LoadingButton>
         <PositionPicker
           className={styles.positionPicker}
-          initialLatitude={50.06459463327754}
-          initialLongitude={19.92328763008118}
           forecast={forecastAtSelectedPosition}
           isLoading={isLoading}
         />
