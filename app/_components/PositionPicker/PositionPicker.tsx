@@ -35,7 +35,6 @@ export default function PositionPicker({
         if (isLoading || e.latlng.lng < -180 || e.latlng.lng > 180) {
           return
         }
-        console.log(e.latlng)
         setMarkerCoordinates(e.latlng.lat, e.latlng.lng)
       },
 
