@@ -36,5 +36,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/week-forecast'],
+  matcher: ['/api/week-forecast', '/api/week-summary'],
 }
