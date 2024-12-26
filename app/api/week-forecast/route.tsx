@@ -68,6 +68,6 @@ export async function GET(request: NextRequest) {
     return Response.json(response)
   } catch (error) {
     console.log(error)
-    return Response.json({ error: 'Błąd wewnętrzny serwera' }, { status: 500 })
+    return Response.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
