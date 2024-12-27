@@ -32,14 +32,12 @@ export default async function Forecast({ searchParams }: ForecastPageProps) {
   }
 
   return (
-    <div className={styles.verticalCenteringWrapper}>
-      <main className={styles.container}>
-        <div className={styles.changeLocalizationButton}>
-          <ChangeLocalizationButton />
-        </div>
-        <WeekForecast latitude={+latitude} longitude={+longitude} />
-        <WeekSummary latitude={+latitude} longitude={+longitude} />
-      </main>
-    </div>
+    <section className={styles.container}>
+      <div className={styles.changeLocalizationButton}>
+        <ChangeLocalizationButton />
+      </div>
+      <WeekForecast latitude={+latitude} longitude={+longitude} />
+      <WeekSummary latitude={+latitude} longitude={+longitude} />
+    </section>
   )
 }
